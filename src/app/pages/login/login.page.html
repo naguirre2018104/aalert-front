@@ -1,0 +1,29 @@
+<ion-content class="bg-login ion-padding">
+    <ion-grid class="center" fixed>
+        <ion-row class="center pb-4">
+            <ion-col size="12"> <img src="./../../../assets/images/aAlert.jpeg" alt="aAlert" class="rounded border border-white"> </ion-col>
+        </ion-row>
+
+        <form #login="ngForm" (ngSubmit)="onSubmit(login)">
+            <ion-list lines="full">
+                <ion-item>
+                    <ion-label position="floating" color="tertiary">Nombre de Usuario</ion-label>
+                    <ion-input [(ngModel)]="userLogin.username" name="username" type="text" required></ion-input>
+                </ion-item>
+                <ion-item class="pb-4">
+                    <ion-label position="floating" color="tertiary">Contraseña</ion-label>
+                    <ion-input [(ngModel)]="userLogin.password" name="password" type="password" required></ion-input>
+                </ion-item>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary" strong="true" [disabled]="!login.form.valid">Ingresar</button>
+                </div>
+            </ion-list>
+        </form>
+    </ion-grid>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+        <ion-title><a routerLink="/register" class="text-primary">Registrarme</a></ion-title>
+    </ion-toolbar>
+</ion-footer>

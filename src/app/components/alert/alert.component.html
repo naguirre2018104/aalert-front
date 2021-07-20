@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="text-center">
+    <ion-icon name="alert-outline"></ion-icon>
+      Alerta
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<br>
+
+<ion-content>
+  <ion-title>
+    <h1 class="text-center">¿Has visto al desaparecido?</h1>
+  </ion-title>
+  <br>
+  <ion-img src="../../../assets/images/aAlert.jpeg"></ion-img>
+  <br>
+  <!-- <ion-item-divider color="dark pt-2 pb-2 fs-3 text-center rounded">
+    <ion-label class="fs-3">Datos generales</ion-label>
+    <ion-icon name="people" class="ms-2"></ion-icon>
+  </ion-item-divider> -->
+  <ion-list class="mt-4 fs-6 ps-4 pe-4" lines="full">
+    <ion-item-divider color="dark pt-2 pb-2 fs-3 text-center rounded">
+        <ion-label class="fs-3">Datos generales</ion-label>
+        <ion-icon name="people" class="ms-2"></ion-icon>
+    </ion-item-divider>
+    <ion-item class="mb-4 mt-4 ion-no-margin">
+        <ion-label name="name" type="text"><strong>Nombres:</strong> {{ alert.name }}</ion-label>
+    </ion-item>
+    <ion-item class="mb-4">
+        <ion-label name="lastname" type="text"><strong>Apellidos:</strong> {{ alert.lastname }}</ion-label>
+    </ion-item>
+    <ion-item class="mb-4">
+        <ion-label name="age" type="number"><strong>Edad:</strong> {{ alert.age }}</ion-label>
+    </ion-item>
+    <ion-item class="mb-4">
+        <ion-label name="place" type="text"><strong>Lugar de desaparición:</strong> {{ alert.place }}</ion-label>
+    </ion-item>
+    <ion-item class="mb-4">
+        <ion-label id="lastdate" name="lastdate" display-format="DD.MM.YYYY"><strong>Última vez visto:</strong> {{ alert.lastdate }}</ion-label>
+    </ion-item>
+    <ion-item class="mb-4">
+        <ion-text *ngIf="alert.sex == 'M'" name="sex"><strong>Sexo:</strong> Masculino</ion-text>
+        <ion-text *ngIf="alert.sex == 'F'" name="sex"><strong>Sexo:</strong> Femenino</ion-text>
+    </ion-item>
+    <ion-item-group>
+        <ion-item-divider color="dark pb-2 pt-2 fs-4 rounded">
+          <ion-label>Descripción</ion-label>
+          <ion-icon name="man" class="ms-2"></ion-icon>
+          <ion-icon name="woman"></ion-icon>
+        </ion-item-divider>
+        <ion-item class="mb-4 mt-4">
+            <ion-label name="tez" type="text"><strong>Tez:</strong> {{ alert.description.tez }}</ion-label>
+        </ion-item>
+        <ion-item class="mb-4">
+            <ion-label name="complexion" type="text"><strong>Complexión:</strong> {{ alert.description.complexion }}</ion-label>
+        </ion-item>
+        <ion-item class="mb-4">
+            <ion-label name="hair" type="text"><strong>Color de cabello:</strong> {{ alert.description.hair }}</ion-label>
+        </ion-item>
+        <ion-item class="mb-4">
+            <ion-label name="special_signs" type="text"><strong>Signos especiales:</strong> {{ alert.description.special_signs }}</ion-label>
+        </ion-item>
+    </ion-item-group>
+  </ion-list>
+</ion-content>
+
+<ion-toolbar *ngIf="telefono != ''">
+  <ion-title class="text-center">
+  <ion-icon name="call"></ion-icon>
+  {{ telefono }}
+  </ion-title>
+</ion-toolbar>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        <ion-label>Regresar</ion-label>
+      </ion-button>
+      <ion-button class="text-right" (click)="report()">
+        <ion-icon name="call" slot="end"></ion-icon>
+        <ion-label>Reportar</ion-label>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

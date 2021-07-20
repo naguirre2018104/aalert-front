@@ -1,0 +1,28 @@
+* {
+    color: white;
+}
+
+.bg-login {
+    --ion-background-color: #090d5f;
+}
+
+img {
+    text-align: center;
+    margin: 0 auto;
+    width: 8rem;
+}
+
+.center {
+    margin: 0 auto;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+    * {
+        color: white;
+    }
+}

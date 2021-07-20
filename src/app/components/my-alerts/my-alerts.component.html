@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-icon name="alert-outline"></ion-icon>
+      <ion-label class="text-center">
+          Mis Alertas
+      </ion-label>
+  </ion-toolbar>
+</ion-header>
+<br>
+
+<ion-content [fullscreen]="true">
+  <ion-list class="ion-padding">
+    <ion-item *ngFor="let alert of alerts" (click)="setAlertInfo(alert)">
+      <ion-thumbnail slot="start">
+          <img src="../../../assets/images/aAlert.jpeg" shape="round">
+      </ion-thumbnail>
+      <ion-label>{{ alert.name }} {{ alert.lastname }} </ion-label>
+      </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        <ion-label>Regresar</ion-label>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

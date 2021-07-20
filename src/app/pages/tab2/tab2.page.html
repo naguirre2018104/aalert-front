@@ -1,0 +1,83 @@
+<ion-header [translucent]="true">
+    <ion-toolbar color="warning">
+        <ion-title class="fw-bolder">
+            <ion-icon name="create" color="danger"></ion-icon>
+            Crear Alerta
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="">
+    <form #createAlertForm="ngForm" (ngSubmit)="onSubmit(createAlertForm)">
+        <ion-list class="mt-4 fs-6 ps-4 pe-4" lines="full">
+            <ion-item-divider color="dark pt-2 pb-2 fs-3 text-center rounded">
+                <ion-label class="fs-3">Datos generales</ion-label>
+                <ion-icon name="people" class="ms-2"></ion-icon>
+            </ion-item-divider>
+            <ion-item class="mb-4 mt-4 ion-no-margin">
+                <ion-input [(ngModel)]="createAlert.name" name="name" type="text" placeholder="Nombres" required></ion-input>
+            </ion-item>
+            <ion-item class="mb-4">
+                <ion-input [(ngModel)]="createAlert.lastname" name="lastname" type="text" placeholder="Apellidos" required></ion-input>
+            </ion-item>
+            <ion-item class="mb-4">
+                <ion-input [(ngModel)]="createAlert.age" name="age" type="number" placeholder="Edad en years" required></ion-input>
+            </ion-item>
+            <ion-item class="mb-4">
+                <ion-input [(ngModel)]="createAlert.place" name="place" type="text" placeholder="Lugar de desaparición" (click)="loadMap()" required></ion-input>
+            </ion-item>
+            <ion-item class="mb-4">
+                <ion-datetime id="lastdate" [(ngModel)]="createAlert.lastdate" name="lastdate" display-format="DD.MM.YYYY" placeholder="Fecha de desaparición"></ion-datetime>
+            </ion-item>
+            <ion-item class="mb-4">
+                <ion-select [(ngModel)]="createAlert.sex" name="sex" placeholder="Seleccione un sexo" required>
+                    <ion-select-option value="M">Masculino</ion-select-option>
+                    <ion-select-option value="F">Femenino</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item class="mb-4">
+                <ion-select [(ngModel)]="createAlert.department" name="department" placeholder="Departamento desaparición" required>
+                    <ion-select-option value="60d919dd73a281695bc8569d">60d919dd73a281695bc8569d</ion-select-option>
+                </ion-select>
+            </ion-item>
+            <ion-item-group>
+                <ion-item-divider color="dark pb-2 pt-2 fs-4 rounded">
+                    <ion-label>Descripcion</ion-label>
+                    <ion-icon name="man" class="ms-2"></ion-icon>
+                    <ion-icon name="woman"></ion-icon>
+                </ion-item-divider>
+                <ion-item class="mb-4 mt-4">
+                    <ion-input [(ngModel)]="createAlert.description.tez" name="tez" type="text" placeholder="Tez" required></ion-input>
+                </ion-item>
+                <ion-item class="mb-4">
+                    <ion-input [(ngModel)]="createAlert.description.complexion" name="complexion" type="text" placeholder="Complexion" required></ion-input>
+                </ion-item>
+                <ion-item class="mb-4">
+                    <ion-input [(ngModel)]="createAlert.description.hair" name="hair" type="text" placeholder="Color de Cabello" required></ion-input>
+                </ion-item>
+                <ion-item class="mb-4">
+                    <ion-input [(ngModel)]="createAlert.description.special_signs" name="special_signs" type="text" placeholder="Signos especiales"></ion-input>
+                </ion-item>
+            </ion-item-group>
+            <ion-item class="mb-4 mt-4">
+                <ion-label>Fotografía</ion-label>
+            </ion-item>
+            <ion-item-divider color="dark pb-2 pt-2 fs-4 rounded">
+                <ion-label>Politica de privacidad</ion-label>
+                <ion-icon name="key" class="ms-2"></ion-icon>
+            </ion-item-divider>
+            <ion-item class="mb-4 mt-4">
+                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam, neque odit. Sit, laudantium illum? Quia animi possimus veritatis illum. Culpa perferendis, debitis eos dolor ullam nam dignissimos delectus atque totam?
+            </ion-item>
+            <ion-item class="mb-4">
+                <ion-label>Acepto y estoy de acuerdo con las politicas de privacidad</ion-label>
+                <ion-toggle></ion-toggle>
+            </ion-item>
+            <div class="text-center mb-4">
+                <ion-button color="warning" expand="block" type="submit" [disabled]="!createAlertForm.form.valid">
+                    Crear
+                </ion-button>
+            </div>
+        </ion-list>
+    </form>
+</ion-content>

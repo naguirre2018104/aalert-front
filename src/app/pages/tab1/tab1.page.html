@@ -1,0 +1,29 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-icon name="alert-outline"></ion-icon>
+        <ion-label class="text-center">
+            Alertas
+        </ion-label>
+    </ion-toolbar>
+</ion-header>
+<br>
+
+<ion-toolbar>
+    <section>
+        <ion-button color="primary" fill="solid" expand="block" (click)="showMyAlerts()">
+            <ion-icon name="clipboard-outline"></ion-icon>
+            <ion-label>Mis alertas</ion-label>
+        </ion-button>
+    </section>
+</ion-toolbar>
+
+<ion-content [fullscreen]="false">
+    <ion-list class="ion-padding">
+        <ion-item *ngFor="let alert of alerts" (click)="setAlertInfo(alert)">
+            <ion-thumbnail slot="start">
+                <img src="./../../../assets/images/aAlert.jpeg" shape="round">
+            </ion-thumbnail>
+            <ion-label>{{ alert.name }} {{ alert.lastname }} </ion-label>
+        </ion-item>
+    </ion-list>
+</ion-content>
