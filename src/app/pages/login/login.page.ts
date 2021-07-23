@@ -35,7 +35,7 @@ export class LoginPage implements OnInit {
         this.navController.navigateRoot('/main/tabs/tab1', {animated: true});
       // })
     }else {
-      this.presentToast("Datos incorrectoss", "danger")
+      this.presentToast("Datos incorrectos", "danger")
     }
   }
 

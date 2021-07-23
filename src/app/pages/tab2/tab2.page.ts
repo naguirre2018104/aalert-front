@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { RestAlertService } from '../../services/rest-alert/rest-alert.service';
 import { ModalController, ToastController } from '@ionic/angular';
 import { MapComponent } from "./../../components/map/map.component";
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab2',
@@ -13,7 +14,7 @@ import { MapComponent } from "./../../components/map/map.component";
 export class Tab2Page implements OnInit {
   createAlert: CreateAlert = {};
 
-  constructor(private restAlert: RestAlertService, private toastController: ToastController, private modalCtrl: ModalController) {
+  constructor(private restAlert: RestAlertService, private toastController: ToastController, private modalCtrl: ModalController, private storage: Storage) {
   this.createAlert = {
     _id: '',
     date: null,
@@ -66,7 +67,7 @@ export class Tab2Page implements OnInit {
       this.presentToast("Alerta creada correctamente", "success");
       this.restAlert.getAlerts().subscribe((resp:any)=>{
         if(resp.alerts){
-          localStorage.setItem('alerts',JSON.stringify(resp.alerts));
+          this.storage.set('alerts',JSON.stringify(resp.alerts));
         }else{
           this.presentToast("Error al refrescar los datos", "danger");
         }

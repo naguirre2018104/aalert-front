@@ -42,7 +42,7 @@ export class RestAlertService {
 
     let headers = new HttpHeaders({
       'content-type': 'application/json',
-      "authorization": this.userService.token
+      "authorization": this.userService.getToken()
     });
 
     return new Promise(resolve => {

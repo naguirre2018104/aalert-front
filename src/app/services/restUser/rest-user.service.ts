@@ -4,7 +4,7 @@ import { UserRegister } from 'src/app/interfaces/user';
 import { CONNECTION } from '../global';
 import { map } from 'rxjs/operators';
 import { UserLogin } from '../../interfaces/user';
-import { Storage } from '@ionic/storage-angular';
+import { Storage } from '@ionic/storage';
 
 @Injectable({
   providedIn: 'root',
@@ -31,7 +31,9 @@ export class RestUserService {
   }
 
   getToken(){
-    this.token = localStorage.getItem('itoken');
+    this.storage.get('itoken').then((value)=>{
+      this.token = value;
+    })
     return this.token;
   }
 
@@ -45,7 +47,6 @@ export class RestUserService {
         .subscribe((resp: any) => {
           if (resp['ok'] && resp['token']) {
             this.saveToken(resp['token']);
-            localStorage.setItem('itoken',resp['token']);
             resolve(true);
           } else {
             this.token = null;
@@ -76,7 +77,7 @@ export class RestUserService {
 
   async saveToken(token) {
     this.token = token;
-    await this.storage.set('token', token);
+    await this.storage.set('itoken',token);
   }
 
   getUser(){

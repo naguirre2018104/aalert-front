@@ -7,7 +7,6 @@
     </ion-toolbar>
 </ion-header>
 <br>
-
 <ion-toolbar>
     <section>
         <ion-button color="primary" fill="solid" expand="block" (click)="showMyAlerts()">
@@ -18,6 +17,9 @@
 </ion-toolbar>
 
 <ion-content [fullscreen]="false">
+    <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+        <ion-refresher-content></ion-refresher-content>
+    </ion-refresher>
     <ion-list class="ion-padding">
         <ion-item *ngFor="let alert of alerts" (click)="setAlertInfo(alert)">
             <ion-thumbnail slot="start">

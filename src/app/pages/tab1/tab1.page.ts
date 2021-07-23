@@ -4,6 +4,7 @@ import { AlertComponent } from 'src/app/components/alert/alert.component';
 import { MyAlertsComponent } from 'src/app/components/my-alerts/my-alerts.component';
 import { Alert } from 'src/app/interfaces/alert';
 import { RestAlertService } from '../../services/rest-alert/rest-alert.service';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'app-tab1',
@@ -15,7 +16,7 @@ export class Tab1Page implements OnInit{
   alerts: Array<Alert> = [];
   alert: Alert;
 
-  constructor(private restAlert: RestAlertService, private modalCtrl: ModalController) {
+  constructor(private restAlert: RestAlertService, private modalCtrl: ModalController, private storage: Storage) {
     this.alert = {
       _id : "",
       date : null,
@@ -41,12 +42,15 @@ export class Tab1Page implements OnInit{
   ngOnInit(){
     this.restAlert.getAlerts().subscribe((resp:any) => {
       this.alerts = resp.alerts;
-      localStorage.setItem('alerts',JSON.stringify(this.alerts));
+      this.storage.set('alerts',JSON.stringify(this.alerts));
     });
   }
 
-  ngDoCheck(){
-    this.alerts = JSON.parse(localStorage.getItem('alerts'));
+  doRefresh(event){
+    setTimeout(()=>{
+      this.ngOnInit();
+      event.target.complete();
+    },1500)
   }
 
   setAlertInfo(alert){
