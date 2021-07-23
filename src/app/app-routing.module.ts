@@ -1,10 +1,12 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { GuardUserGuard } from './guards/guardUser/guard-user.guard';
 
 const routes: Routes = [
   {
     path: 'main',
-    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule)
+    loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
+    canLoad: [GuardUserGuard]
   },
   {
     path: 'login',

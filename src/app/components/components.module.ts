@@ -4,17 +4,20 @@ import { IonicModule } from "@ionic/angular";
 import { MapComponent } from "./map/map.component";
 import { AlertComponent } from './alert/alert.component';
 import { MyAlertsComponent } from './my-alerts/my-alerts.component';
+import { PhotoMissingPersonComponent } from './photo-missing-person/photo-missing-person.component';
 
 @NgModule({
   declarations: [
     MapComponent,
     AlertComponent,
-    MyAlertsComponent
+    MyAlertsComponent,
+    PhotoMissingPersonComponent
   ],
   exports:[
     MapComponent,
     AlertComponent,
-    MyAlertsComponent
+    MyAlertsComponent,
+    PhotoMissingPersonComponent
   ],
   imports: [
     CommonModule,

@@ -39,11 +39,18 @@ export class Tab1Page implements OnInit{
     }
   }
 
-  ngOnInit(){
-    this.restAlert.getAlerts().subscribe((resp:any) => {
-      this.alerts = resp.alerts;
-      this.storage.set('alerts',JSON.stringify(this.alerts));
-    });
+  async ngOnInit(){
+    // this.restAlert.getAlerts().subscribe((resp:any) => {
+    //   console.log(resp);
+    //   this.alerts = resp.alerts;
+    //   this.storage.set('alerts',JSON.stringify(this.alerts));
+    // });
+    let alerts = await <any>this.restAlert.getAlerts();
+
+    if(alerts.ok){
+      this.alerts =  alerts.alerts;
+      this.storage.set('alerts', JSON.stringify(alerts));
+    }
   }
 
   doRefresh(event){

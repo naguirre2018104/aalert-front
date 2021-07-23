@@ -23,15 +23,25 @@ export class AlertComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  report(){
-    this.restUser.getUser().subscribe((resp:any)=>{
-      if(resp.user){
-        this.telefono = resp.user.phone;
-        this.presentToast("Puede reportar su vista al número en pantalla", "success");
-      }else{
-        this.presentToast("Error al redirigir a la llamada", "danger");
-      }
-    })
+  // report(){
+  //   this.restUser.getUser().subscribe((resp:any)=>{
+  //     if(resp.user){
+  //       this.telefono = resp.user.phone;
+  //       this.presentToast("Puede reportar su vista al número en pantalla", "success");
+  //     }else{
+  //       this.presentToast("Error al redirigir a la llamada", "danger");
+  //     }
+  //   })
+  // }
+  async report(){
+    let valueAlert = await <any>this.restUser.getUser();
+
+    if(valueAlert.ok){
+      this.telefono = valueAlert.user.phone;
+      this.presentToast("Puede reportar su vista el numero en pantalla", "success");
+    }else {
+      this.presentToast("Error al redirigir a la llamada", "danger");
+    }
   }
 
   async presentToast(message, color) {

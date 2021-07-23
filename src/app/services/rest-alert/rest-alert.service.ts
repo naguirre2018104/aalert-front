@@ -42,7 +42,7 @@ export class RestAlertService {
 
     let headers = new HttpHeaders({
       'content-type': 'application/json',
-      "authorization": this.userService.getToken()
+      "authorization": this.token
     });
 
     return new Promise(resolve => {
@@ -51,6 +51,7 @@ export class RestAlertService {
       .post<any>(`${this.uri}/createAlert/${departmentId}`, params, { headers })
       .pipe(map(this.extractData))
       .subscribe((resp: any) => {
+        console.log(resp);
         if(resp['ok']){
           resolve(true);
         }else{
@@ -62,20 +63,34 @@ export class RestAlertService {
 
   }
 
-  getAlerts(){
+  async getAlerts(){
+    await this.getToken();
     let headers = new HttpHeaders({
       'content-type': 'application/json',
-      "authorization": this.userService.getToken()
+      "authorization": this.token
     });
 
-    return this.http.get<any>(`${this.uri}/getAlerts`, {headers}).pipe(map(this.extractData));
+    console.log(this.token);
 
+    return new Promise(resolve => {
+      this.http.get<any>(`${this.uri}/getAlerts`, {headers})
+      .pipe(map(this.extractData))
+      .subscribe((resp:any) => {
+        console.log(resp);
+        if(resp.alerts){
+          resolve({ok: true, resp});
+        }else{
+          resolve(false);
+        }
+      })
+    })
   }
 
   getUserAlerts(){
+    
     let headers = new HttpHeaders({
       'content-type': 'application/json',
-      "authorization": this.userService.getToken()
+      "authorization": this.token
     });
 
     return this.http.get<any>(`${this.uri}/getUserAlerts`, {headers}).pipe(map(this.extractData));

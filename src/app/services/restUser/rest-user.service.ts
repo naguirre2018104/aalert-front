@@ -5,6 +5,7 @@ import { CONNECTION } from '../global';
 import { map } from 'rxjs/operators';
 import { UserLogin } from '../../interfaces/user';
 import { Storage } from '@ionic/storage';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,7 @@ import { Storage } from '@ionic/storage';
 export class RestUserService {
   public uri;
 
-  public token:string = null;
+  public token: string = null;
 
   public httpOptions = {
     headers: new HttpHeaders({
@@ -25,19 +26,20 @@ export class RestUserService {
     return body || [] || {};
   }
 
-  constructor(private http: HttpClient, private storage: Storage) {
+  constructor(
+    private http: HttpClient,
+    private storage: Storage,
+    private navCtrl: NavController
+  ) {
     this.uri = CONNECTION.uri;
     this.storage.create();
   }
 
-  getToken(){
-    this.storage.get('itoken').then((value)=>{
-      this.token = value;
-    })
-    return this.token;
+  async getToken() {
+    this.token = (await this.storage.get('token')) || null;
   }
 
-  login(userLogin: UserLogin) {
+  async login(userLogin: UserLogin) {
     let params = JSON.stringify(userLogin);
 
     return new Promise((resolve) => {
@@ -64,7 +66,6 @@ export class RestUserService {
         .post<any>(`${this.uri}/register`, params, this.httpOptions)
         .pipe(map(this.extractData))
         .subscribe((resp: any) => {
-
           if (resp['ok'] && resp['userSaved']) {
             resolve(true);
           } else {
@@ -77,15 +78,54 @@ export class RestUserService {
 
   async saveToken(token) {
     this.token = token;
-    await this.storage.set('itoken',token);
+    await this.storage.set('token', token);
   }
 
-  getUser(){
+  async getUser() {
+    await this.getToken();
     let headers = new HttpHeaders({
       'content-type': 'application/json',
-      "authorization": this.getToken()
+      authorization: this.token,
     });
 
-    return this.http.get<any>(`${this.uri}/getUserById`, {headers}).pipe(map(this.extractData));
+    return new Promise((resolve) => {
+      this.http
+        .get<any>(`${this.uri}/getUserById`, { headers })
+        .pipe(map(this.extractData))
+        .subscribe((resp: any) => {
+          if (resp['user']) {
+            resolve({ ok: true, user: resp['user'] });
+          } else {
+            resolve(false);
+          }
+        });
+    });
+  }
+
+  async validateToken(): Promise<boolean> {
+    await this.getToken();
+    
+    if (!this.token) {
+      this.navCtrl.navigateRoot('/login');
+      return Promise.resolve(false);
+    }
+
+    return new Promise<boolean>((resolve) => {
+      let headers = new HttpHeaders({
+        authorization: this.token,
+      });
+      this.http
+        .get(`${this.uri}/getUserByToken`, { headers })
+        .pipe(map(this.extractData))
+        .subscribe((resp: any) => {
+          console.log(resp);
+          if (resp['ok']) {
+            resolve(true);
+          } else {
+            this.navCtrl.navigateRoot('/login');
+            resolve(false);
+          }
+        }, (err) => console.log(err));
+    });
   }
 }
