@@ -1,17 +1,39 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Tab 3
+    <ion-title class="ion-text-capitalize-center">
+      Mi Cuenta
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <img src="../../../assets/images/user.png" alt="user" class="rounded mx-auto d-block">
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <div style="text-align:center">
+      <ion-input id="username" name="username" type="text" [(ngModel)]="userLogged.username" [readonly]="isReadOnly" value="{{userLogged.username}}" 
+       placeholder="Nombre de Usuario" class="inputbig" maxlength=25 required #username="ngModel"></ion-input>
+  </div>
+
+  <ion-item>
+    <ion-label position="stacked" class="labelsize" mode="ios">Nombre</ion-label>
+    <ion-input [(ngModel)]="userLogged.name" [readonly]="isReadOnly" value="{{userLogged.name}}" required #name="ngModel"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked" class="labelsize" mode="ios">Apellidos</ion-label>
+    <ion-input [(ngModel)]="userLogged.lastname" [readonly]="isReadOnly" value="{{userLogged.lastname}}" required #lastname="ngModel"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked" class="labelsize" mode="ios">Phone</ion-label>
+    <ion-input [(ngModel)]="userLogged.phone" [readonly]="isReadOnly" value="{{userLogged.phone}}" required #phone="ngModel"></ion-input>
+  </ion-item>
+  <ion-item class="center">
+    <ion-label class="labelsize">Notificaciones</ion-label>
+    <ion-toggle mode="ios" slot="start" name="kiwi" color="success" checked></ion-toggle>
+  </ion-item>
+
+  <ion-button expand="full" color="primary" *ngIf="this.isReadOnly == true" (click)="changeButton()">Actualizar Datos</ion-button>
+  <ion-button expand="full" color="warning" *ngIf="this.isReadOnly == false" [disabled]="username.invalid || name.invalid || lastname.invalid || phone.invalid" (click)="update()">Guardar Cambios</ion-button>
+  <ion-button expand="full" color="danger" (click)="logOut()">Cerrar Sesión</ion-button>
+
+
 </ion-content>

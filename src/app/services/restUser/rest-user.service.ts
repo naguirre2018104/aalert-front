@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserRegister } from 'src/app/interfaces/user';
+import { UserLogged } from '../../interfaces/user';
 import { CONNECTION } from '../global';
 import { map } from 'rxjs/operators';
 import { UserLogin } from '../../interfaces/user';
@@ -17,7 +18,7 @@ export class RestUserService {
 
   public httpOptions = {
     headers: new HttpHeaders({
-      'content-type': 'application/json',
+      'content-type': 'application/json'
     }),
   };
 
@@ -49,6 +50,7 @@ export class RestUserService {
         .subscribe((resp: any) => {
           if (resp['ok'] && resp['token']) {
             this.saveToken(resp['token']);
+            this.saveUserLogged(resp['userFinded']);
             resolve(true);
           } else {
             this.token = null;
@@ -74,6 +76,34 @@ export class RestUserService {
           }
         });
     });
+  }
+
+  async modifyUser(userLogged: UserLogged, userId: string){
+    let params = JSON.stringify(userLogged);
+
+    
+    let headers = new HttpHeaders({
+      'content-type': 'application/json',
+      "authorization": this.token
+    });
+
+    return new Promise((resolve) => {
+      this.http
+        .put<any>(`${this.uri}/modifyUser/${userId}`, params, { headers })
+        .pipe(map(this.extractData))
+        .subscribe((resp: any) => {
+          if (resp['userUpdated']) {
+            this.saveUserLogged(resp['userUpdated']);
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+    });
+  }
+
+  async saveUserLogged(user){
+    await this.storage.set('userLogged', user);
   }
 
   async saveToken(token) {

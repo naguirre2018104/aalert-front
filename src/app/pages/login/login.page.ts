@@ -27,8 +27,7 @@ export class LoginPage implements OnInit {
 
   async onSubmit(login: NgForm){
     let value = await this.restUser.login(this.userLogin)
-
-    console.log(value);
+    
     if(value){
         this.navController.navigateRoot('/main/tabs/tab1', {animated: true});
     }else {
