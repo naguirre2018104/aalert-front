@@ -70,15 +70,13 @@ export class RestAlertService {
       "authorization": this.token
     });
 
-    console.log(this.token);
-
     return new Promise(resolve => {
       this.http.get<any>(`${this.uri}/getAlerts`, {headers})
       .pipe(map(this.extractData))
       .subscribe((resp:any) => {
         console.log(resp);
         if(resp.alerts){
-          resolve({ok: true, resp});
+          resolve({ok: true, alerts: resp.alerts});
         }else{
           resolve(false);
         }

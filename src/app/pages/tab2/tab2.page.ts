@@ -93,7 +93,16 @@ export class Tab2Page implements OnInit {
       message,
       duration: 2000,
       color,
-      position: 'top'
+      position: 'top',
+      buttons: [
+        {
+          icon: 'checkmark',
+          side: 'end',
+          handler: () => {
+            toast.dismiss();
+          }
+        }
+      ]
     });
     toast.present();
   }

@@ -40,11 +40,6 @@ export class Tab1Page implements OnInit{
   }
 
   async ngOnInit(){
-    // this.restAlert.getAlerts().subscribe((resp:any) => {
-    //   console.log(resp);
-    //   this.alerts = resp.alerts;
-    //   this.storage.set('alerts',JSON.stringify(this.alerts));
-    // });
     let alerts = await <any>this.restAlert.getAlerts();
 
     if(alerts.ok){

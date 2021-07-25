@@ -40,6 +40,14 @@ export class LoginPage implements OnInit {
       message,
       duration: 2000,
       color,
+      position: "top",
+      buttons: [{
+        icon: 'sad',
+        side: 'end',
+        handler: () => {
+          toast.dismiss();
+        }
+      }]
     });
     await toast.present();
   }

@@ -4,9 +4,15 @@
         <ion-label class="text-center">
             Alertas
         </ion-label>
+        <section slot="end">
+            <ion-button color="primary" fill="solid" expand="block" (click)="showMyAlerts()">
+                <ion-icon name="clipboard-outline"></ion-icon>
+                <ion-label>Mis alertas</ion-label>
+            </ion-button>
+        </section>
     </ion-toolbar>
 </ion-header>
-<br>
+<!-- <br>
 <ion-toolbar>
     <section>
         <ion-button color="primary" fill="solid" expand="block" (click)="showMyAlerts()">
@@ -14,16 +20,21 @@
             <ion-label>Mis alertas</ion-label>
         </ion-button>
     </section>
-</ion-toolbar>
+</ion-toolbar> -->
 
 <ion-content [fullscreen]="false">
+    <ion-header class="mb-4">
+        <ion-toolbar>
+            <ion-title>Todas las alertas</ion-title>
+        </ion-toolbar>
+    </ion-header>
     <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
         <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-    <ion-list class="ion-padding">
-        <ion-item *ngFor="let alert of alerts" (click)="setAlertInfo(alert)">
+    <ion-list class="pe-4">
+        <ion-item *ngFor="let alert of alerts" (click)="setAlertInfo(alert)" slot="start" class="mb-2">
             <ion-thumbnail slot="start">
-                <img src="./../../../assets/images/aAlert.jpeg" shape="round">
+                <img src="./../../../assets/images/aAlert.jpeg" shape="round" class="rounded">
             </ion-thumbnail>
             <ion-label>{{ alert.name }} {{ alert.lastname }} </ion-label>
         </ion-item>

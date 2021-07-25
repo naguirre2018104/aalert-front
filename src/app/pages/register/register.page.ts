@@ -51,6 +51,7 @@ export class RegisterPage implements OnInit {
       message,
       duration: 2000,
       color,
+      position: "top"
     });
     toast.present();
   }

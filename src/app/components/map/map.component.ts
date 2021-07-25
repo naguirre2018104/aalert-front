@@ -14,26 +14,73 @@ export class MapComponent implements OnInit {
   @Input() gretting;
 
   map:any;
-  
+  infoWindow: any;
+  currentMarker:any;
+
   // @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
   @ViewChild('map', {static: true}) mapRef: ElementRef;
 
   constructor(private modalCtrl: ModalController) { }
 
   ngOnInit() {
-    console.log(this.gretting);
-
     this.showMap();
   }
 
   showMap(){
-    const location = new google.maps.LatLng(-17, 31);
+    const myLatLng = { lat: 14.6262174, lng: -90.5275799 };
     const options = {
-      center: location,
+      center: myLatLng,
       zoom: 15,
-      disableDefailtUI: true
+      disableDefaultUI: true,
     };
+
     this.map = new google.maps.Map(this.mapRef.nativeElement, options);
+    this.infoWindow = new google.maps.InfoWindow();
+
+    this.currentMarker = new google.maps.Marker({
+      position: myLatLng,
+      title: "Hello World!"
+    });
+    this.currentMarker.setMap(this.map)
+
+    this.getCurrentPosition();
+  }
+
+  getCurrentPosition(){
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+        let {latitude: lat, longitude: lng} = position.coords ;
+
+          console.log(lat, lng);
+
+        let pos = {lat, lng};
+
+        this.currentMarker.setPosition(pos);
+        this.currentMarker.setMap(this.map);
+        console.log(this.currentMarker.position);
+        this.map.setCenter(pos);
+
+      }, () => {
+        this.handleLocationError(true, this.infoWindow, this.map.getCenter()!);
+      })
+    }else {
+        // Browser doesn't support Geolocation
+        this.handleLocationError(false, this.infoWindow, this.map.getCenter()!);
+    }
+  }
+
+  handleLocationError(
+    browserHasGeolocation: boolean,
+    infoWindow: any,
+    pos: any
+  ) {
+    infoWindow.setPosition(pos);
+    infoWindow.setContent(
+      browserHasGeolocation
+        ? "Error: Faló servicio de geolocalización."
+        : "Error: Tu navegador no soporta Geolocalización."
+    );
+    infoWindow.open(this.map);
   }
 
   goBack(){

@@ -6,7 +6,7 @@ const routes: Routes = [
   {
     path: 'main',
     loadChildren: () => import('./pages/tabs/tabs.module').then(m => m.TabsPageModule),
-    canLoad: [GuardUserGuard]
+    // canLoad: [GuardUserGuard]
   },
   {
     path: 'login',

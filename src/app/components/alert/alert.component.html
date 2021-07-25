@@ -76,11 +76,13 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back" slot="start"></ion-icon>
+        <ion-icon name="arrow-back"></ion-icon>
         <ion-label>Regresar</ion-label>
       </ion-button>
-      <ion-button class="text-right" (click)="report()">
-        <ion-icon name="call" slot="end"></ion-icon>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="report()" slot="end">
+        <ion-icon name="call" class="me-2"></ion-icon>
         <ion-label>Reportar</ion-label>
       </ion-button>
     </ion-buttons>

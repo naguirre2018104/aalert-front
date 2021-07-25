@@ -5,7 +5,7 @@
         </ion-row>
 
         <form #login="ngForm" (ngSubmit)="onSubmit(login)">
-            <ion-list lines="full">
+            <ion-list lines="full" class="center-ilist">
                 <ion-item>
                     <ion-label position="floating" color="tertiary">Nombre de Usuario</ion-label>
                     <ion-input [(ngModel)]="userLogin.username" name="username" type="text" required></ion-input>
