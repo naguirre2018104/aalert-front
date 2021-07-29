@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, ToastController } from '@ionic/angular';
 import { ViewChild, ElementRef } from "@angular/core";
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 
 declare var google:any;
 
@@ -20,7 +21,7 @@ export class MapComponent implements OnInit {
   // @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
   @ViewChild('map', {static: true}) mapRef: ElementRef;
 
-  constructor(private modalCtrl: ModalController) { }
+  constructor(private modalCtrl: ModalController, private toastCtrl: ToastController, private geolocation: Geolocation) { }
 
   ngOnInit() {
     this.showMap();
@@ -46,27 +47,20 @@ export class MapComponent implements OnInit {
     this.getCurrentPosition();
   }
 
-  getCurrentPosition(){
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
-        let {latitude: lat, longitude: lng} = position.coords ;
-
-          console.log(lat, lng);
-
-        let pos = {lat, lng};
-
-        this.currentMarker.setPosition(pos);
-        this.currentMarker.setMap(this.map);
-        console.log(this.currentMarker.position);
-        this.map.setCenter(pos);
-
-      }, () => {
-        this.handleLocationError(true, this.infoWindow, this.map.getCenter()!);
-      })
-    }else {
-        // Browser doesn't support Geolocation
-        this.handleLocationError(false, this.infoWindow, this.map.getCenter()!);
-    }
+  async getCurrentPosition(){
+    await this.geolocation.getCurrentPosition()
+    .then((position: Geoposition) => {
+      let {latitude: lat, longitude: lng} = position.coords ;
+      let pos = {lat, lng};
+      this.currentMarker.setPosition(pos);
+      this.currentMarker.setMap(this.map);
+      this.map.setCenter(pos);
+      console.log(position);
+    })
+    .catch( err => {
+      console.log(err);
+      this.presentToastMessage("Error con la geolocalizacion", 5000, "danger");
+    })
   }
 
   handleLocationError(
@@ -85,6 +79,17 @@ export class MapComponent implements OnInit {
 
   goBack(){
     this.modalCtrl.dismiss()
+  }
+
+  async presentToastMessage(message: string, duration: number, color: string){
+    let toast = await this.toastCtrl.create({
+      message,
+      duration,
+      color,
+      animated: true,
+      position: "top"
+    });
+    toast.present();
   }
 
 }

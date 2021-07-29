@@ -13,12 +13,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { ImagePicker } from "@ionic-native/image-picker/ngx";
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, CommonModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ImagePicker],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ImagePicker, Geolocation],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
