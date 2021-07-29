@@ -2,10 +2,6 @@
     color: white;
 }
 
-.bg-login {
-    --ion-background-color: #090d5f;
-}
-
 img {
     text-align: center;
     margin: 0 auto;
@@ -27,8 +23,19 @@ a {
     }
 }
 
-.center-ilist {
+#bg-login {
+    --ion-background: #8E2DE2;  /* fallback for old browsers */
+    --background: -webkit-linear-gradient(to right, #4A00E0, #8E2DE2);  /* Chrome 10-25, Safari 5.1-6 */
+    --background: linear-gradient(to right, #4A00E0, #8E2DE2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+ion-grid {
     height: 100%!important;
-    display: block!important;
+}
+
+ion-row {
+    display: flex!important;
     align-items: center!important;
+    justify-content: center!important;
+    height: 100%!important;
 }

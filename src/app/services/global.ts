@@ -1,3 +1,3 @@
 export const CONNECTION = {
-    uri: 'http://localhost:3200/api',
+    uri: 'https://aalertt.herokuapp.com/api',
 };
