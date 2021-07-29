@@ -40,3 +40,10 @@ ion-row {
     justify-content: center!important;
     height: 100%!important;
 }
+
+ion-input {
+    text-align: left;
+    --ion-padding: 10rem;
+    opacity: .7;
+    border-radius: 1rem;
+}

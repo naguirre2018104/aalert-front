@@ -3,38 +3,32 @@
         <ion-row>
             <ion-col size="12">
                 <form #register="ngForm" (ngSubmit)="onSubmit(register)">
-                    <ion-list lines="full">
-                        <ion-item>
-                            <ion-label class="fs-1 fw-bolder text-center text-secondary">Crea tu Cuenta</ion-label>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="floating" color="tertiary">Nombres</ion-label>
-                            <ion-input [(ngModel)]="userRegister.name" name="name" type="text" required></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="floating" color="tertiary">Apellidos</ion-label>
-                            <ion-input [(ngModel)]="userRegister.lastname" name="lastname" type="text" required></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="floating" color="tertiary">Nombre de Usuario</ion-label>
-                            <ion-input [(ngModel)]="userRegister.username" name="username" type="text" required></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="floating" color="tertiary">Contraseña</ion-label>
-                            <ion-input [(ngModel)]="userRegister.password" name="password" type="password" required></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="floating" color="tertiary">DPI</ion-label>
-                            <ion-input [(ngModel)]="userRegister.DPI" name="DPI" type="number" required></ion-input>
-                        </ion-item>
-                        <ion-item class="pb-4">
-                            <ion-label position="floating" color="tertiary">Phone</ion-label>
-                            <ion-input [(ngModel)]="userRegister.phone" name="phone" type="number" value="+502" required></ion-input>
-                        </ion-item>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary" strong="true" [disabled]="!register.form.valid">Registrarme</button>
+                    <div>
+                        <div>
+                            <ion-label class="fs-1 fw-bolder text-center">Crea tu Cuenta</ion-label>
                         </div>
-                    </ion-list>
+                        <div class="mb-4 mt-4">
+                            <ion-input [(ngModel)]="userRegister.name" name="name" type="text" class="bg-white text-dark ps-3 pe-3" placeholder="Nombre" required></ion-input>
+                        </div>
+                        <div class="mb-4 mt-4">
+                            <ion-input [(ngModel)]="userRegister.lastname" name="lastname" type="text" class="bg-white text-dark ps-3 pe-3" placeholder="Apellido" required></ion-input>
+                        </div>
+                        <div class="mb-4 mt-4">
+                            <ion-input [(ngModel)]="userRegister.username" name="username" type="text" class="bg-white text-dark ps-3 pe-3" placeholder="Nombre de Usuario" required></ion-input>
+                        </div>
+                        <div class="mb-4 mt-4">
+                            <ion-input [(ngModel)]="userRegister.password" name="password" type="password" class="bg-white text-dark ps-3 pe-3" placeholder="Contraseña" required></ion-input>
+                        </div>
+                        <div class="mb-4 mt-4">
+                            <ion-input [(ngModel)]="userRegister.DPI" name="DPI" type="number" class="bg-white text-dark ps-3 pe-3" placeholder="DPI" required></ion-input>
+                        </div>
+                        <div class="mb-4 mt-4 pb-4">
+                            <ion-input [(ngModel)]="userRegister.phone" name="phone" type="number" value="+502" class="bg-white text-dark ps-3 pe-3" placeholder="Número telefónico" required></ion-input>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn bg-light text-dark" strong="true" [disabled]="!register.form.valid">Registrarme</button>
+                        </div>
+                    </div>
                 </form>
             </ion-col>
         </ion-row>

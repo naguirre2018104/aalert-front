@@ -14,12 +14,14 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 
 import { ImagePicker } from "@ionic-native/image-picker/ngx";
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, CommonModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule, IonicStorageModule.forRoot()],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ImagePicker, Geolocation],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, ImagePicker, AndroidPermissions , Geolocation, LocationAccuracy],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

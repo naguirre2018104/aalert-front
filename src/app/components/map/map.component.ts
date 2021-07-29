@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, ToastController } from '@ionic/angular';
+import { Component, DoCheck, Input, OnChanges, OnInit } from '@angular/core';
+import { ModalController, Platform, ToastController } from '@ionic/angular';
 import { ViewChild, ElementRef } from "@angular/core";
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
+import { LocationService } from '../../services/location/location.service';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 declare var google:any;
 
@@ -17,17 +19,19 @@ export class MapComponent implements OnInit {
   map:any;
   infoWindow: any;
   currentMarker:any;
+  plaftform: Platform;
 
   // @ViewChild('map', {read: ElementRef, static: false}) mapRef: ElementRef;
   @ViewChild('map', {static: true}) mapRef: ElementRef;
 
-  constructor(private modalCtrl: ModalController, private toastCtrl: ToastController, private geolocation: Geolocation) { }
+  constructor(private modalCtrl: ModalController, private toastCtrl: ToastController, private geolocation: Geolocation,
+    private locationService: LocationService, private permissions: AndroidPermissions) { }
 
   ngOnInit() {
     this.showMap();
   }
 
-  showMap(){
+  async showMap(){
     const myLatLng = { lat: 14.6262174, lng: -90.5275799 };
     const options = {
       center: myLatLng,
@@ -35,32 +39,33 @@ export class MapComponent implements OnInit {
       disableDefaultUI: true,
     };
 
-    this.map = new google.maps.Map(this.mapRef.nativeElement, options);
-    this.infoWindow = new google.maps.InfoWindow();
+    this.map = await new google.maps.Map(this.mapRef.nativeElement, options);
+    this.infoWindow = await new google.maps.InfoWindow();
 
-    this.currentMarker = new google.maps.Marker({
+    this.currentMarker = await new google.maps.Marker({
       position: myLatLng,
       title: "Hello World!"
     });
-    this.currentMarker.setMap(this.map)
-
+    await this.currentMarker.setMap(this.map);
     this.getCurrentPosition();
   }
 
   async getCurrentPosition(){
-    await this.geolocation.getCurrentPosition()
-    .then((position: Geoposition) => {
-      let {latitude: lat, longitude: lng} = position.coords ;
-      let pos = {lat, lng};
-      this.currentMarker.setPosition(pos);
-      this.currentMarker.setMap(this.map);
-      this.map.setCenter(pos);
-      console.log(position);
-    })
-    .catch( err => {
-      console.log(err);
-      this.presentToastMessage("Error con la geolocalizacion", 5000, "danger");
-    })
+
+      await this.geolocation.getCurrentPosition()
+      .then((position: Geoposition) => {
+        let {latitude: lat, longitude: lng} = position.coords ;
+        let pos = {lat, lng};
+        this.currentMarker.setPosition(pos);
+        this.currentMarker.setMap(this.map);
+        this.map.setCenter(pos);
+        console.log(position);
+      })
+      .catch( err => {
+        console.log(err);
+        this.presentToastMessage("Error con la geolocalizacion", 5000, "danger", "bottom");
+      });
+
   }
 
   handleLocationError(
@@ -81,13 +86,13 @@ export class MapComponent implements OnInit {
     this.modalCtrl.dismiss()
   }
 
-  async presentToastMessage(message: string, duration: number, color: string){
+  async presentToastMessage(message: string, duration: number, color: string, position){
     let toast = await this.toastCtrl.create({
       message,
       duration,
       color,
-      animated: true,
-      position: "top"
+      position,
+      animated: true
     });
     toast.present();
   }

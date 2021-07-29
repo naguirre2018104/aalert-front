@@ -4,19 +4,17 @@
             <ion-col size="12"> 
                 <img src="./../../../assets/images/aAlert.jpeg" alt="aAlert" class="rounded border border-white mb-4"> 
                 <form #login="ngForm" (ngSubmit)="onSubmit(login)" class="mt-2">
-                    <ion-list lines="full">
-                        <ion-item>
-                            <ion-label position="floating" color="tertiary">Nombre de Usuario</ion-label>
-                            <ion-input [(ngModel)]="userLogin.username" name="username" type="text" required></ion-input>
-                        </ion-item>
-                        <ion-item class="pb-4">
-                            <ion-label position="floating" color="tertiary">Contraseña</ion-label>
-                            <ion-input [(ngModel)]="userLogin.password" name="password" type="password" required></ion-input>
-                        </ion-item>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary" strong="true" [disabled]="!login.form.valid">Ingresar</button>
+                    <div>
+                        <div>
+                            <ion-input [(ngModel)]="userLogin.username" name="username" type="text" class="bg-white text-dark ps-3 pe-3" placeholder="Nombre de Usuario" required></ion-input>
                         </div>
-                    </ion-list>
+                        <div class="mb-4 mt-4">
+                            <ion-input [(ngModel)]="userLogin.password" name="password" type="password" class="bg-white text-dark ps-3 pe-3" placeholder="Contraseña" required></ion-input>
+                        </div>
+                        <div class="d-grid mt-4">
+                            <button type="submit" class="btn bg-primary text-light" strong="true" [disabled]="!login.form.valid">Ingresar</button>
+                        </div>
+                    </div>
                 </form>
             </ion-col>
         </ion-row>

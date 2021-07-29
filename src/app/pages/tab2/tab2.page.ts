@@ -6,6 +6,7 @@ import { ModalController, ToastController } from '@ionic/angular';
 import { MapComponent } from "./../../components/map/map.component";
 import { Storage } from '@ionic/storage';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 
 @Component({
   selector: 'app-tab2',
@@ -15,7 +16,7 @@ import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx'
 export class Tab2Page implements OnInit {
   createAlert: CreateAlert = {};
 
-  constructor(private restAlert: RestAlertService, private toastController: ToastController, private modalCtrl: ModalController, private storage: Storage, private picker: ImagePicker) {
+  constructor(private restAlert: RestAlertService, private toastController: ToastController, private modalCtrl: ModalController, private storage: Storage, private picker: ImagePicker, private permissions: AndroidPermissions) {
  //this.createAlert = {
   //   _id: '',
   //   date: null,
@@ -58,15 +59,15 @@ export class Tab2Page implements OnInit {
    };
   }
 
-  ngOnInit() {
-    this.picker.hasReadPermission().then((val) => {
+  async ngOnInit() {
+    await this.picker.hasReadPermission().then((val) => {
       if(!val){
         this.picker.requestReadPermission();
       }
     }, (err) => {
       console.log(JSON.stringify(err));
       this.picker.requestReadPermission();
-    })
+    });
   }
 
   async onSubmit(createAlertForm: NgForm) {
