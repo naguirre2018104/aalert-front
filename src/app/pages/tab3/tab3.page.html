@@ -14,26 +14,39 @@
        placeholder="Nombre de Usuario" class="inputbig" maxlength=25 required #username="ngModel"></ion-input>
   </div>
 
+<ion-list class="mt-4 fs-6 ps-4 pe-4">
   <ion-item>
     <ion-label position="stacked" class="labelsize" mode="ios">Nombre</ion-label>
-    <ion-input [(ngModel)]="userLogged.name" [readonly]="isReadOnly" value="{{userLogged.name}}" required #name="ngModel"></ion-input>
+    <ion-input [(ngModel)]="userLogged.name" color="primary" [readonly]="isReadOnly" value="{{userLogged.name}}" required #name="ngModel"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="stacked" class="labelsize" mode="ios">Apellidos</ion-label>
-    <ion-input [(ngModel)]="userLogged.lastname" [readonly]="isReadOnly" value="{{userLogged.lastname}}" required #lastname="ngModel"></ion-input>
+    <ion-input [(ngModel)]="userLogged.lastname" color="primary" [readonly]="isReadOnly" value="{{userLogged.lastname}}" required #lastname="ngModel"></ion-input>
   </ion-item>
   <ion-item>
     <ion-label position="stacked" class="labelsize" mode="ios">Phone</ion-label>
-    <ion-input [(ngModel)]="userLogged.phone" [readonly]="isReadOnly" value="{{userLogged.phone}}" required #phone="ngModel"></ion-input>
+    <ion-input [(ngModel)]="userLogged.phone" color="primary" [readonly]="isReadOnly" value="{{userLogged.phone}}" required #phone="ngModel"></ion-input>
   </ion-item>
-  <ion-item class="center">
+  <div class="mt-4">
+    <ion-button color="primary" fill="clear" (click)="showMyAlerts()">
+        <ion-label class="ms-2">Mis alertas</ion-label>
+        <ion-icon name="clipboard-outline" slot="icon-only"></ion-icon>
+    </ion-button>
+    <ion-button expand="clear" color="tertiary" (click)="AboutModal()">
+      <ion-label class="ms-2">Acerca De</ion-label>
+      <ion-icon name="apps" slot="icon-only"></ion-icon>
+    </ion-button>
+  </div>
+  <!-- <ion-item class="center">
     <ion-label class="labelsize">Notificaciones</ion-label>
     <ion-toggle mode="ios" slot="start" name="kiwi" color="success" checked></ion-toggle>
-  </ion-item>
-
-  <ion-button expand="full" color="primary" *ngIf="this.isReadOnly == true" (click)="changeButton()">Actualizar Datos</ion-button>
-  <ion-button expand="full" color="warning" *ngIf="this.isReadOnly == false" [disabled]="username.invalid || name.invalid || lastname.invalid || phone.invalid" (click)="update()">Guardar Cambios</ion-button>
-  <ion-button expand="full" color="danger" (click)="logOut()">Cerrar Sesión</ion-button>
+  </ion-item> -->
+  <div class="text-center mb-4">
+      <ion-button class="mt-4" expand="block" color="primary" *ngIf="this.isReadOnly == true" (click)="changeButton()">Actualizar Datos</ion-button>
+      <ion-button class="mt-2" expand="block" color="warning" *ngIf="this.isReadOnly == false" [disabled]="username.invalid || name.invalid || lastname.invalid || phone.invalid" (click)="update()">Guardar Cambios</ion-button>
+      <ion-button class="mt-4" expand="block" color="danger" (click)="logOut()">Cerrar Sesión</ion-button>
+  </div>
+</ion-list>
 
 
 </ion-content>

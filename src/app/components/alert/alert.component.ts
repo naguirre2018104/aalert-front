@@ -1,7 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { CallNumber } from '@ionic-native/call-number/ngx';
 import { ModalController, ToastController } from '@ionic/angular';
 import { RestUserService } from 'src/app/services/restUser/rest-user.service';
 /* import { CallNumber } from '@ionic-native/call-number/ngx'; */
+import { MapComponent } from '../map/map.component';
+import { Contact } from '@ionic-native/contacts/ngx';
 
 @Component({
   selector: 'app-alert',
@@ -14,7 +17,7 @@ export class AlertComponent implements OnInit {
   telefono = '';
 
   constructor(private modalCtrl: ModalController, private restUser: RestUserService, private toastController: ToastController,
-    /* private callNumber: CallNumber */) { }
+    private callNumber: CallNumber, private contact: Contact) { }
 
   ngOnInit() {
   }
@@ -23,16 +26,6 @@ export class AlertComponent implements OnInit {
     this.modalCtrl.dismiss();
   }
 
-  // report(){
-  //   this.restUser.getUser().subscribe((resp:any)=>{
-  //     if(resp.user){
-  //       this.telefono = resp.user.phone;
-  //       this.presentToast("Puede reportar su vista al número en pantalla", "success");
-  //     }else{
-  //       this.presentToast("Error al redirigir a la llamada", "danger");
-  //     }
-  //   })
-  // }
   async report(){
     let valueAlert = await <any>this.restUser.getUser();
 
@@ -51,6 +44,21 @@ export class AlertComponent implements OnInit {
       color,
     });
     toast.present();
+  }
+
+  async showLocation(alert){
+    let mapModal = await this.modalCtrl.create({
+      component: MapComponent,
+      componentProps: {
+        coords: alert.place,
+        editable: false
+      }
+    });
+    mapModal.present();
+  }
+
+  async call(){
+    await this.callNumber.callNumber("41582149", true);
   }
 
 }

@@ -7,6 +7,8 @@ import { Tab3Page } from './tab3.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
 import { Tab3PageRoutingModule } from './tab3-routing.module';
+import { MyAlertsComponent } from 'src/app/components/my-alerts/my-alerts.component';
+
 
 @NgModule({
   imports: [

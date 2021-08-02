@@ -5,7 +5,7 @@ export interface CreateAlert {
   name?: string;
   lastname?: string;
   age?: number;
-  place?: string;
+  place?: Object;
   lastdate?: Date;
   sex?: string;
   image?: string;
@@ -17,6 +17,7 @@ export interface CreateAlert {
     hair?: string;
     special_signs?: string;
   };
+  showAlert?: boolean;
 }
 
 export interface Alert {
@@ -26,7 +27,7 @@ export interface Alert {
   name?: string;
   lastname?: string;
   age?: number;
-  place?: string;
+  place?: Object;
   lastdate?: Date;
   sex?: string;
   image?: string;
@@ -37,5 +38,19 @@ export interface Alert {
     complexion?: string;
     hair?: string;
     special_signs?: string;
+  };
+  showAlert?: boolean;
+}
+
+export interface Notification{
+  app_id: string;
+  included_segments: [string,string];
+  contents: {
+    en: string,
+    es?: string
+  };
+  headings: {
+    en: string,
+    es?: string
   };
 }

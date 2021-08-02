@@ -6,15 +6,14 @@
       </ion-label>
   </ion-toolbar>
 </ion-header>
-<br>
 
 <ion-content [fullscreen]="true">
   <ion-list class="ion-padding">
-    <ion-item *ngFor="let alert of alerts" (click)="setAlertInfo(alert)">
-      <ion-thumbnail slot="start">
-          <img src="../../../assets/images/aAlert.jpeg" shape="round">
-      </ion-thumbnail>
-      <ion-label>{{ alert.name }} {{ alert.lastname }} </ion-label>
+      <ion-item *ngFor="let alert of alerts">
+        <ion-thumbnail slot="start">
+            <img src="{{ alert.image }}" shape="round">
+        </ion-thumbnail>
+        <ion-label>{{ alert.name }} {{ alert.lastname }} </ion-label>
       </ion-item>
   </ion-list>
 </ion-content>

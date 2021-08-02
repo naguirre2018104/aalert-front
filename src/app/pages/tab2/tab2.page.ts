@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateAlert } from '../../interfaces/alert';
+import { CreateAlert, Notification } from '../../interfaces/alert';
 import { NgForm } from '@angular/forms';
 import { RestAlertService } from '../../services/rest-alert/rest-alert.service';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, NavController } from '@ionic/angular';
 import { MapComponent } from "./../../components/map/map.component";
 import { Storage } from '@ionic/storage';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker/ngx';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { PushNotificationsService } from 'src/app/services/pushNotifications/push-notifications.service';
+import { FireStorageService } from 'src/app/services/fireStorage/fire-storage.service';
+import { DomSanitizer } from '@angular/platform-browser';
+
+declare var window;
 
 @Component({
   selector: 'app-tab2',
@@ -15,76 +20,75 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 })
 export class Tab2Page implements OnInit {
   createAlert: CreateAlert = {};
+  notification: Notification;
 
-  constructor(private restAlert: RestAlertService, private toastController: ToastController, private modalCtrl: ModalController, private storage: Storage, private picker: ImagePicker, private permissions: AndroidPermissions) {
- //this.createAlert = {
-  //   _id: '',
-  //   date: null,
-  //   status: true,
-  //   name: '',
-  //   lastname: '',
-  //   age: null,
-  //   place: '',
-  //   lastdate: null,
-  //   sex: '',
-  //   image: '',
-  //   user: '',
-  //   department: '',
-  //   description: {
-  //     tez: '',
-  //     complexion: '',
-  //     hair: '',
-  //     special_signs: '',
-  //   },
-  // };
-  this.createAlert = {
-     _id: '',
-     date: null,
-     status: true,
-     name: 'Josue',
-     lastname: 'Perez',
-     age: 18,
-     place: 'zona 18',
-     lastdate: new Date('2021-06-27T19:23:35.039-06:00'),
-     sex: 'M',
-     image: '',
-     user: '',
-     department: '60d919dd73a281695bc8569d',
-     description: {
-       tez: 'moreno',
-       complexion: 'gordito',
-       hair: 'negro',
-       special_signs: 'ninguno',
-     },
-   };
+  imagaAlert = '';
+
+  constructor(private restAlert: RestAlertService, private toastController: ToastController, private modalCtrl: ModalController,  private picker: ImagePicker, 
+    private notificationPush: PushNotificationsService, private navCtrl: NavController, private fireStorageService: FireStorageService,
+    private domSinitizer: DomSanitizer) {
+    this.createAlert = {
+      _id: '',
+      date: null,
+      status: true,
+      name: '',
+      lastname: '',
+      age: null,
+      place: null,
+      lastdate: null,
+      sex: '',
+      image: '',
+      user: '',
+      description: {
+        tez: '',
+        complexion: '',
+        hair: '',
+        special_signs: '',
+      },
+      showAlert: true,
+    };
+    this.notification = {
+      app_id: "132f34b9-159e-4aff-b574-8b4fefbefa46",
+      included_segments: ["Active Users", "Inactive Users"],
+      contents: {
+        en: "",
+        es: ""
+      },
+      headings: {
+        en: "Have you seen this person?",
+        es: "¿Has visto a esta persona?"
+      }
+    }
   }
 
   async ngOnInit() {
-    await this.picker.hasReadPermission().then((val) => {
-      if(!val){
-        this.picker.requestReadPermission();
-      }
-    }, (err) => {
-      console.log(JSON.stringify(err));
-      this.picker.requestReadPermission();
-    });
+    // await this.picker.hasReadPermission().then((val) => {
+    //   if(!val){
+    //     this.picker.requestReadPermission();
+    //   }
+    // }, (err) => {
+    //   console.log(JSON.stringify(err));
+    //   this.picker.requestReadPermission();
+    // });
   }
 
   async onSubmit(createAlertForm: NgForm) {
     console.log(this.createAlert);
-    let resp = await this.restAlert.createAlert(this.createAlert, this.createAlert.department);
-
+    let resp: any = await this.restAlert.createAlert(this.createAlert);
+    console.log(resp);
     if(resp){
-      this.presentToast("Alerta creada correctamente", "success");
-      // this.restAlert.getAlerts().subscribe((resp:any)=>{
-      //   if(resp.alerts){
-      //     this.storage.set('alerts',JSON.stringify(resp.alerts));
-      //   }else{
-      //     this.presentToast("Error al refrescar los datos", "danger");
-      //   }
-      // })
-    }else {
-      this.presentToast("Error.", "danger")
+      let name = this.createAlert.name + ' ' + this.createAlert.lastname;
+      this.notification.contents.en = name;
+      this.notification.contents.es = name;
+      this.notificationPush.sendNotification(this.notification).subscribe((resp)=>{
+        console.log(resp);
+      });
+
+      console.log(this.notification);
+
+      createAlertForm.reset();
+      await this.presentToast("Alerta creada correctamente", "success");
+      this.navCtrl.navigateRoot('/main/tabs/tab1');
     }
 
   }
@@ -109,28 +113,39 @@ export class Tab2Page implements OnInit {
   }
 
   async loadMap(){
+    let defaultCoords = { lat: 14.6262174, lng: -90.5275799 };
+    console.log(this.createAlert.place);
+    let coords = (this.createAlert.place !== null)? this.createAlert.place : defaultCoords;
     const modal = await this.modalCtrl.create({
       component: MapComponent,
       componentProps: {
-        gretting: "Hello"
+        coords,
+        editable: true
       }
     });
 
     modal.present();
+
+    let data = (await modal.onDidDismiss()).data;
+    this.createAlert.place = data;
   }
 
-  choosePhoto(){
-    let options: ImagePickerOptions = {
-      maximumImagesCount: 1
-    };
+  files(event:any){
+    if(event.target.files && event.target.files[0]){
+      const reader = new FileReader();
+      reader.onload = ((image) => {
+        this.imagaAlert = image.target.result as string;
+      });
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  }
 
-    this.picker.getPictures(options).then((res) => {
-      for (let index = 0; index < res.length; index++) {
-        console.log(res[index]);
-      }
-    }, (err) => {
-      console.log(err);
-    });
+  async uploadPhoto(photo: any){
+    const path = "Alertas";
+    const name = this.createAlert.name + this.createAlert.lastname +  this.createAlert.sex;
 
+    const file = photo.target.files[0];
+    const res = await this.fireStorageService.uploadImage(file, path, name);
+    this.createAlert.image = res;
   }
 }

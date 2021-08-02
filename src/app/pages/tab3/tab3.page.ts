@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
 import { UserLogged } from '../../interfaces/user';
-import { ToastController, NavController } from '@ionic/angular';
+import { ToastController, NavController, ModalController } from '@ionic/angular';
 import { RestUserService } from 'src/app/services/restUser/rest-user.service';
+import { MyAlertsComponent } from '../../components/my-alerts/my-alerts.component';
+import { RestAlertService } from '../../services/rest-alert/rest-alert.service';
+import { AboutComponent } from '../../components/about/about.component';
 
 @Component({
   selector: 'app-tab3',
@@ -18,31 +21,27 @@ export class Tab3Page {
 
   constructor(private router: Router, private storage: Storage,
               private restUser: RestUserService,  private toastController: ToastController,
-              private navController: NavController) {
+              private modalCtrl: ModalController, private restAlert: RestAlertService) {
     this.userLogged = {
       _id: '',
       name: '',
       lastname: '',
       username: '',
       password: '',
-      phone: null
+      phone: null,
     }
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.isReadOnly = true;
-    this.storage.get('userLogged').then((result) => {
-      this.userLogged._id = result._id;
-      this.userLogged.username = result.username;
-      this.userLogged.name = result.name;
-      this.userLogged.lastname = result.lastname;
-      this.userLogged.phone = result.phone;
-    });
+    let user = await this.storage.get('userLogged');
+    delete user.role;
+    this.userLogged = user;
   }
 
 
-  logOut(){
-    this.storage.clear();
+  async logOut(){
+    await this.storage.clear();
     this.router.navigateByUrl("login");
   }
 
@@ -52,6 +51,8 @@ export class Tab3Page {
 
   async update(){
     delete this.userLogged.password;
+    console.log(this.userLogged);
+
     let value = await this.restUser.modifyUser(this.userLogged, this.userLogged._id);
 
     if(value){
@@ -64,8 +65,24 @@ export class Tab3Page {
     }
   }
 
-  getData(){
+  showMyAlerts(){
+    console.log('object');
+    this.loadMyAlertsComponent();
+  }
 
+  async loadMyAlertsComponent(){
+    let areThereAlerts:any = await this.restAlert.getUserAlerts();
+
+    if(areThereAlerts.ok){
+      const modal = await this.modalCtrl.create({
+        component: MyAlertsComponent,
+        componentProps: {
+          alerts: areThereAlerts.alerts
+        }
+      });
+  
+      await modal.present();
+    }
   }
 
   async presentToast(message, color) {
@@ -77,5 +94,15 @@ export class Tab3Page {
     });
     toast.present();
   }
+
+  async AboutModal() {
+
+    const modal = await this.modalCtrl.create({
+      component: AboutComponent
+    });
+    return await modal.present();
+
+  }
+
 
 }

@@ -7,7 +7,7 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="">
+<ion-content [fullscreen]="true">
     <form #createAlertForm="ngForm" (ngSubmit)="onSubmit(createAlertForm)">
         <ion-list class="mt-4 fs-6 ps-4 pe-4" lines="full">
             <ion-item-divider color="dark pt-2 pb-2 fs-3 text-center rounded">
@@ -21,10 +21,16 @@
                 <ion-input [(ngModel)]="createAlert.lastname" name="lastname" type="text" placeholder="Apellidos" required></ion-input>
             </ion-item>
             <ion-item class="mb-4">
-                <ion-input [(ngModel)]="createAlert.age" name="age" type="number" placeholder="Edad en years" required></ion-input>
+                <ion-input [(ngModel)]="createAlert.age" name="age" inputmode="number" placeholder="Edad en years" required></ion-input>
             </ion-item>
             <ion-item class="mb-4">
-                <ion-input [(ngModel)]="createAlert.place" name="place" type="text" placeholder="Lugar de desaparición" (click)="loadMap()" required></ion-input>
+                <ion-label class="text-muted">Lugar de desaparición</ion-label>
+                <ion-input [(ngModel)]="createAlert.place" name="place" type="text" placeholder="Lugar de desaparición" required hidden></ion-input>
+                <ion-buttons slot="end">
+                    <ion-button (click)="loadMap()" color="medium" shape="round">
+                        <ion-icon name="compass" slot="icon-only"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
             </ion-item>
             <ion-item class="mb-4">
                 <ion-datetime id="lastdate" [(ngModel)]="createAlert.lastdate" name="lastdate" display-format="DD.MM.YYYY" placeholder="Fecha de desaparición"></ion-datetime>
@@ -33,11 +39,6 @@
                 <ion-select [(ngModel)]="createAlert.sex" name="sex" placeholder="Seleccione un sexo" required>
                     <ion-select-option value="M">Masculino</ion-select-option>
                     <ion-select-option value="F">Femenino</ion-select-option>
-                </ion-select>
-            </ion-item>
-            <ion-item class="mb-4">
-                <ion-select [(ngModel)]="createAlert.department" name="department" placeholder="Departamento desaparición" required>
-                    <ion-select-option value="60d919dd73a281695bc8569d">60d919dd73a281695bc8569d</ion-select-option>
                 </ion-select>
             </ion-item>
             <ion-item-group>
@@ -60,19 +61,31 @@
                 </ion-item>
             </ion-item-group>
             <ion-item class="mb-4 mt-4">
-                <ion-label (click)="choosePhoto()">Fotografía</ion-label>
+                <ion-label class="text-muted">Fotografía</ion-label>
+                <!-- <input  type="file" name="image" id="inputImage" (change)="uploadPhoto($event)" required> -->
+                <ion-buttons slot="end">
+                    <ion-button (change)="uploadPhoto($event)">
+                        <label for="imageUpload">
+                            <ion-icon slot="icon-only" name="images"></ion-icon>
+                        </label>
+                        <input id="imageUpload" type="file" style="display: none" required>
+                    </ion-button>
+                </ion-buttons>
+                
             </ion-item>
             <ion-item-divider color="dark pb-2 pt-2 fs-4 rounded">
                 <ion-label>Politica de privacidad</ion-label>
                 <ion-icon name="key" class="ms-2"></ion-icon>
             </ion-item-divider>
-            <ion-item class="mb-4 mt-4">
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Numquam, neque odit. Sit, laudantium illum? Quia animi possimus veritatis illum. Culpa perferendis, debitis eos dolor ullam nam dignissimos delectus atque totam?
+            <ion-item class="mb-4 mt-4 t">
+                <ion-text>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In nemo quia fuga consequatur rerum, quae nam fugit adipisc</p>
+                </ion-text>
             </ion-item>
-            <ion-item class="mb-4">
-                <ion-label>Acepto y estoy de acuerdo con las politicas de privacidad</ion-label>
-                <ion-toggle></ion-toggle>
-            </ion-item>
+            <!-- <ion-item class="mb-4">
+                <ion-label>Acepto y estoy de acuerdo</ion-label>
+                <ion-toggle required></ion-toggle>
+            </ion-item> -->
             <div class="text-center mb-4">
                 <ion-button color="warning" expand="block" type="submit" [disabled]="!createAlertForm.form.valid">
                     Crear

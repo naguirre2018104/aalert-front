@@ -14,7 +14,8 @@ import { NavController } from '@ionic/angular';
 export class RestUserService {
   public uri;
 
-  public token: string = null;
+  private token: string = null;
+  private user: any = null;
 
   public httpOptions = {
     headers: new HttpHeaders({
@@ -38,6 +39,11 @@ export class RestUserService {
 
   async getToken() {
     this.token = (await this.storage.get('token')) || null;
+  }
+
+  async getUserStorage(){
+    this.user = (await this.storage.get('userLogged')) || null;
+    return this.user;
   }
 
   async login(userLogin: UserLogin) {
@@ -103,6 +109,7 @@ export class RestUserService {
   }
 
   async saveUserLogged(user){
+    delete user.password;
     await this.storage.set('userLogged', user);
   }
 

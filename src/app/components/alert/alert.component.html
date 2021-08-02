@@ -9,16 +9,8 @@
 <br>
 
 <ion-content>
-  <ion-title>
-    <h1 class="text-center">¿Has visto al desaparecido?</h1>
-  </ion-title>
+  <ion-img src="{{ alert.image }}"></ion-img>
   <br>
-  <ion-img src="../../../assets/images/aAlert.jpeg"></ion-img>
-  <br>
-  <!-- <ion-item-divider color="dark pt-2 pb-2 fs-3 text-center rounded">
-    <ion-label class="fs-3">Datos generales</ion-label>
-    <ion-icon name="people" class="ms-2"></ion-icon>
-  </ion-item-divider> -->
   <ion-list class="mt-4 fs-6 ps-4 pe-4" lines="full">
     <ion-item-divider color="dark pt-2 pb-2 fs-3 text-center rounded">
         <ion-label class="fs-3">Datos generales</ion-label>
@@ -34,14 +26,19 @@
         <ion-label name="age" type="number"><strong>Edad:</strong> {{ alert.age }}</ion-label>
     </ion-item>
     <ion-item class="mb-4">
-        <ion-label name="place" type="text"><strong>Lugar de desaparición:</strong> {{ alert.place }}</ion-label>
+        <ion-label><strong>Lugar de desaparición:</strong></ion-label>
+        <ion-buttons slot="end">
+          <ion-button (click)="showLocation(alert)">
+            <ion-icon name="map" slot="icon-only"></ion-icon>
+          </ion-button>
+        </ion-buttons>
     </ion-item>
+    <!-- <ion-item class="mb-4">
+      <ion-label><strong>Última vez visto:</strong> </ion-label>
+        <ion-label id="lastdate" name="lastdate" display-format="DD.MM.YYYY">{{ alert.lastdate }}</ion-label>
+    </ion-item> -->
     <ion-item class="mb-4">
-        <ion-label id="lastdate" name="lastdate" display-format="DD.MM.YYYY"><strong>Última vez visto:</strong> {{ alert.lastdate }}</ion-label>
-    </ion-item>
-    <ion-item class="mb-4">
-        <ion-text *ngIf="alert.sex == 'M'" name="sex"><strong>Sexo:</strong> Masculino</ion-text>
-        <ion-text *ngIf="alert.sex == 'F'" name="sex"><strong>Sexo:</strong> Femenino</ion-text>
+        <ion-text name="sex"><strong>Sexo:</strong> {{ (alert.sex === "M") ? "Masculino" : "Femenino" }}</ion-text>
     </ion-item>
     <ion-item-group>
         <ion-item-divider color="dark pb-2 pt-2 fs-4 rounded">
@@ -65,24 +62,17 @@
   </ion-list>
 </ion-content>
 
-<ion-toolbar *ngIf="telefono != ''">
-  <ion-title class="text-center">
-  <ion-icon name="call"></ion-icon>
-  {{ telefono }}
-  </ion-title>
-</ion-toolbar>
-
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back"></ion-icon>
+        <ion-icon name="arrow-back" slot="icon-only" class="me-2"></ion-icon>
         <ion-label>Regresar</ion-label>
       </ion-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="report()" slot="end">
-        <ion-icon name="call" class="me-2"></ion-icon>
+      <ion-button (click)="call()" slot="end">
+        <ion-icon name="call" class="me-2" slot="icon-only" class="me-2"></ion-icon>
         <ion-label>Reportar</ion-label>
       </ion-button>
     </ion-buttons>

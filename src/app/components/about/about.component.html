@@ -1,0 +1,158 @@
+
+<ion-content [fullscreen]="true">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap');
+  </style>
+
+<ion-slides #sliderRef [options]="slideOpts">
+
+  <ion-slide>
+    <div class="slide">
+      <img class="center" src="./../../../assets/images/aAlert.jpeg"/>
+      <h1>AAlert</h1>
+    </div>
+  </ion-slide>
+
+  <ion-slide>
+    <img class="about" src="./../../../assets/images/aboutimage.png"/>
+    <h1>¿Por qué?</h1>
+    <p><b>AAlert</b> fue creada con el objetivo de ayudar a las personas a encontrar y tener información de sus seres queridos desaparecidos.</p>
+  </ion-slide>
+
+  <ion-slide>
+    <img class="gif" src="./../../../assets/gif/notification.gif"/>
+    <h1>Funcionamiento</h1>
+    <p class="fs-6"><b>Desde AAlert</b> ingresa los datos de la persona desaparecida y entrará en nuestro registro de alertas donde nuestros usuarios te podrán avisar si han visto a tu ser querido o tienen información sobre él.</p>
+  </ion-slide>
+
+  <ion-slide>
+    <div class="slide">
+      <img class="center2" src="./../../../assets/images/developers.png"/>
+      <h1>Desarrolladores</h1>
+    </div>
+  </ion-slide>
+
+  <ion-slide class="developer">
+    <img class="photo" src="./../../../assets/images/developerBonifasi.jpg"/>
+    <h1>Marcos Bonifasi</h1>
+    <div class="row">
+      <div class="column">
+      <a href="https://github.com/MarcosBonifasi" target="_blank">
+        <picture>
+          <source srcset="./../../../assets/images/darkgithub.png" media="(prefers-color-scheme: dark)">
+          <img class="social-media" src="./../../../assets/images/github.png" />
+        </picture> 
+      </a> 
+      </div>
+      <div class="column">
+        <a href="https://www.linkedin.com/in/marcosdanielbonifasi-2021" target="_blank">
+          <picture>
+            <img class="social-media" src="./../../../assets/images/linkedin.png" />
+          </picture>
+        </a> 
+      </div>
+    </div>
+  </ion-slide>
+
+  <ion-slide class="developer">
+    <img class="photo" src="./../../../assets/images/developerValladares.jpg"/>
+    <h1>Kenneth Valladares</h1>
+    <div class="row">
+      <div class="column">
+      <a href="https://github.com/Kvalladares-2016277" target="_blank">
+        <picture>
+          <source srcset="./../../../assets/images/darkgithub.png" media="(prefers-color-scheme: dark)">
+          <img class="social-media" src="./../../../assets/images/github.png" />
+        </picture> 
+      </a> 
+      </div>
+      <div class="column">
+        <a href="https://www.linkedin.com/mwlite/in/kenneth-luis-valladares-salguero-b03752217" target="_blank">
+          <picture>
+            <img class="social-media" src="./../../../assets/images/linkedin.png" />
+          </picture>
+        </a> 
+      </div>
+    </div>
+  </ion-slide>
+
+  <ion-slide class="developer">
+    <img class="photo" src="./../../../assets/images/developerNoel.jpg"/>
+    <h1>Noel Aguirre</h1>
+    <div class="row">
+      <div class="column">
+      <a href="https://github.com/naguirre1/naguirre1.github.io" target="_blank">
+        <picture>
+          <source srcset="./../../../assets/images/darkgithub.png" media="(prefers-color-scheme: dark)">
+          <img class="social-media" src="./../../../assets/images/github.png" />
+        </picture> 
+      </a> 
+      </div>
+      <div class="column">
+        <a href="https://www.linkedin.com/in/noel-alejandro-aguirre-padilla-0478ab218/" target="_blank">
+          <picture>
+            <img class="social-media" src="./../../../assets/images/linkedin.png" />
+          </picture>
+        </a> 
+      </div>
+    </div>
+  </ion-slide>
+
+  <ion-slide class="developer">
+    <img class="photo" src="./../../../assets/images/developerSonny.png"/>
+    <h1>Sonny Castillo</h1>
+    <div class="row">
+      <div class="column">
+      <a href="https://github.com/sonnycastillo" target="_blank">
+        <picture>
+          <source srcset="./../../../assets/images/darkgithub.png" media="(prefers-color-scheme: dark)">
+          <img class="social-media" src="./../../../assets/images/github.png" />
+        </picture> 
+      </a> 
+      </div>
+      <div class="column">
+        <a href="https://www.linkedin.com/in/sonny-evans-castillo-soto" target="_blank">
+          <picture>
+            <img class="social-media" src="./../../../assets/images/linkedin.png" />
+          </picture>
+        </a> 
+      </div>
+    </div>
+  </ion-slide>
+
+  <ion-slide class="developer">
+    <img class="photo" src="./../../../assets/images/developerJose.jpg"/>
+    <h1>Jose Aguilar</h1>
+    <div class="row">
+      <div class="column">
+      <a href="https://github.com/jaguilar2016197" target="_blank">
+        <picture>
+          <source srcset="./../../../assets/images/darkgithub.png" media="(prefers-color-scheme: dark)">
+          <img class="social-media" src="./../../../assets/images/github.png" />
+        </picture> 
+      </a> 
+      </div>
+      <div class="column">
+        <a href="https://www.linkedin.com/in/jose-aguilar-032948218/" target="_blank">
+          <picture>
+            <img class="social-media" src="./../../../assets/images/linkedin.png" />
+          </picture>
+        </a> 
+      </div>
+    </div>
+  </ion-slide>
+
+</ion-slides>
+
+
+</ion-content>
+
+<ion-footer mode="ios">
+  <ion-toolbar>
+    <div class="btn-wrapper">
+      <ion-button fill="clear" (click)="close()">Cerrar</ion-button>
+    </div>
+
+  </ion-toolbar>
+</ion-footer>
