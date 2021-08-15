@@ -5,7 +5,13 @@ export interface CreateAlert {
   name?: string;
   lastname?: string;
   age?: number;
-  place?: Object;
+  place?: {
+    location?: {
+      lat?: number,
+      lng?: number
+    },
+    formatted_address?: string
+  };
   lastdate?: Date;
   sex?: string;
   image?: string;
@@ -27,7 +33,13 @@ export interface Alert {
   name?: string;
   lastname?: string;
   age?: number;
-  place?: Object;
+  place?: {
+    location?: {
+      lat?: number,
+      lng?: number
+    },
+    formatted_address?: string
+  };
   lastdate?: Date;
   sex?: string;
   image?: string;

@@ -50,7 +50,7 @@ export class AlertComponent implements OnInit {
     let mapModal = await this.modalCtrl.create({
       component: MapComponent,
       componentProps: {
-        coords: alert.place,
+        coords: alert.place.location,
         editable: false
       }
     });

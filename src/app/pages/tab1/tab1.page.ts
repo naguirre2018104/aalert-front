@@ -31,7 +31,10 @@ export class Tab1Page implements OnInit{
       name : "",
       lastname : "",
       age : null,
-      place : {},
+      place: {
+        location: null,
+        formatted_address: null
+      },
       lastdate : null,
       sex : "",
       image : "",

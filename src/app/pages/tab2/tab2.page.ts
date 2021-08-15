@@ -34,7 +34,10 @@ export class Tab2Page implements OnInit {
       name: '',
       lastname: '',
       age: null,
-      place: null,
+      place: {
+        location: null,
+        formatted_address: null
+      },
       lastdate: null,
       sex: '',
       image: '',
@@ -61,16 +64,7 @@ export class Tab2Page implements OnInit {
     }
   }
 
-  async ngOnInit() {
-    // await this.picker.hasReadPermission().then((val) => {
-    //   if(!val){
-    //     this.picker.requestReadPermission();
-    //   }
-    // }, (err) => {
-    //   console.log(JSON.stringify(err));
-    //   this.picker.requestReadPermission();
-    // });
-  }
+  ngOnInit() {}
 
   async onSubmit(createAlertForm: NgForm) {
     console.log(this.createAlert);
@@ -83,8 +77,6 @@ export class Tab2Page implements OnInit {
       this.notificationPush.sendNotification(this.notification).subscribe((resp)=>{
         console.log(resp);
       });
-
-      console.log(this.notification);
 
       createAlertForm.reset();
       await this.presentToast("Alerta creada correctamente", "success");
@@ -114,8 +106,8 @@ export class Tab2Page implements OnInit {
 
   async loadMap(){
     let defaultCoords = { lat: 14.6262174, lng: -90.5275799 };
-    console.log(this.createAlert.place);
-    let coords = (this.createAlert.place !== null)? this.createAlert.place : defaultCoords;
+
+    let coords = (this.createAlert.place.location != null)? this.createAlert.place.location : defaultCoords;
     const modal = await this.modalCtrl.create({
       component: MapComponent,
       componentProps: {
@@ -126,8 +118,10 @@ export class Tab2Page implements OnInit {
 
     modal.present();
 
-    let data = (await modal.onDidDismiss()).data;
-    this.createAlert.place = data;
+    let { data } = (await modal.onDidDismiss());
+    this.createAlert.place.location = data.location;
+    this.createAlert.place.formatted_address = data.formatted_address;
+    console.log(this.createAlert.place);
   }
 
   files(event:any){

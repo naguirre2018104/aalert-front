@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController, Platform, ToastController } from '@ionic/angular';
+import { ModalController, Platform, ToastController, AlertController } from '@ionic/angular';
 import { ViewChild, ElementRef } from '@angular/core';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
-import { LocationService } from '../../services/location/location.service';
-import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { UiService } from 'src/app/services/ui/ui.service';
 
 declare var google: any;
 
@@ -20,6 +19,7 @@ export class MapComponent implements OnInit {
   currentMarker: any;
   plaftform: Platform;
   placePersonMissed = null;
+  placeName = null;
 
   @Input() coords;
   @Input() editable;
@@ -28,10 +28,9 @@ export class MapComponent implements OnInit {
 
   constructor(
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController,
+    private alertCtrl: AlertController,
     private geolocation: Geolocation,
-    private locationService: LocationService,
-    private permissions: AndroidPermissions
+    private uiService: UiService
   ) {}
 
   async ngOnInit() {
@@ -44,11 +43,11 @@ export class MapComponent implements OnInit {
   }
 
   async showMap() {
-    // console.log(this.placePersonMissed);
-    // const defaultLatLng = (this.placePersonMissed != null)? this.placePersonMissed : { lat: 14.6262174, lng: -90.5275799 };
-    let center =
-      this.placePersonMissed != null ? this.placePersonMissed : this.coords;
+    let center = (this.placePersonMissed != null) ? this.placePersonMissed : this.coords;
     this.placePersonMissed = center;
+
+    console.log(this.coords);
+
     const options = {
       center,
       zoom: 15,
@@ -79,11 +78,9 @@ export class MapComponent implements OnInit {
         this.placePersonMissed = pos;
         this.currentMarker.setMap(this.map);
         this.map.setCenter(pos);
-        console.log(position);
       })
       .catch((err) => {
-        console.log(err);
-        this.presentToastMessage(
+        this.uiService.presetToast(
           'Error con la geolocalizacion',
           5000,
           'danger',
@@ -91,47 +88,63 @@ export class MapComponent implements OnInit {
         );
       });
 
-    this.presentToastMessage('Arrastra el marcador', 5000, 'warning', 'bottom');
+    this.uiService.presetToast('Arrastra el marcador', 5000, 'warning', 'bottom');
   }
 
-  handleLocationError(
-    browserHasGeolocation: boolean,
-    infoWindow: any,
-    pos: any
-  ) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(
-      browserHasGeolocation
-        ? 'Error: Faló servicio de geolocalización.'
-        : 'Error: Tu navegador no soporta Geolocalización.'
-    );
-    infoWindow.open(this.map);
-  }
 
   goBack() {
-    this.modalCtrl.dismiss();
+    this.modalCtrl.dismiss({
+      location: this.placePersonMissed,
+      formatted_address: this.placeName
+    });
   }
 
   setPlace() {
     const geocoder = new google.maps.Geocoder();
     let location = this.placePersonMissed;
 
-    this.modalCtrl.dismiss(location);
+    geocoder.geocode({location})
+    .then( (response) => {
+      console.log(response);
+      if(response.results[0]){
+        let address = response.results[0].formatted_address;
+        this.confirmAddress('CONFIRMAR', '¿Estás seguro de está dirección?', address, address );
+      }else {
+        this.uiService.presetToast('warning', 'bottom', 'No se encontró un dirección', 5000);
+      }
+    });
+
+    
   }
 
-  async presentToastMessage(
-    message: string,
-    duration: number,
-    color: string,
-    position
-  ) {
-    let toast = await this.toastCtrl.create({
+  async confirmAddress(header, subHeader, message, dataResult){
+    let alert = await this.alertCtrl.create({
+      header,
+      subHeader,
       message,
-      duration,
-      color,
-      position,
-      animated: true,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          cssClass: 'danger'
+        },
+        {
+          text: 'Confirmar',
+          role: 'confirm',
+          cssClass: 'success',
+          handler: () => {
+            this.placeName = dataResult || "Sin dirreción";
+            this.modalCtrl.dismiss({
+              location: this.placePersonMissed,
+              formatted_address: this.placeName
+            });
+            return true;
+          }
+        }
+      ]
     });
-    toast.present();
+
+    await alert.present();
   }
 }

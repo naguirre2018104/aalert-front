@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ToastController } from '@ionic/angular';
+import { AlertController, ToastController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UiService {
 
-  constructor(private toastCtrl: ToastController) { }
+  constructor(private toastCtrl: ToastController, private alertCtrl: AlertController) { }
 
   async presetToast(color, position, message, duration){
     let toast = await this.toastCtrl.create({
@@ -18,6 +18,26 @@ export class UiService {
     });
     
     toast.present();
+  }
 
+  async confirmAlert(header, subHeader, message){
+    let alert = await this.alertCtrl.create({
+      header,
+      subHeader,
+      message,
+      buttons: [{
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary'
+      }, 
+      {
+        text: 'Confirmar',
+        role: 'confirm',
+        cssClass: 'primary'
+      }]
+    });
+
+    await alert.present();
+    let { role } = await alert.onDidDismiss();
   }
 }
